@@ -12,7 +12,7 @@ class Enemy {
             width: 50,
             height: 100,
         }
-        this.isCrossedBorder = false;
+       // this.isCrossedBorder = false;
         this.isDead = false;
         const images = ["images/black-car.png", "images/police-car.png"];
         this.image = new Image();
@@ -38,16 +38,29 @@ class Enemy {
     move() {
         this.position.y += this.velocity.y;
     }
-    checkBottomCollision() {
-        if (this.position.y + this.size.height >= canvas.height) {
-          this.isCrossedBorder = true;
-        }
-      }
+    // checkBottomCollision() {
+    //     if (this.position.y + this.size.height >= canvas.height) {
+    //       this.isCrossedBorder = true;
+    //     }
+    // }
+
+    collision(car){
+        if(this.position.x+this.size.width> car.position.x&&
+            this.position.x< car.position.x+car.size.width&&
+            this.position.y + this.size.height> car.position.y&&
+            this.position.y< car.position.y+car.size.height){
+                car.velocity.y = 0;
+                car.velocity.x =0;
+                console.log("collide");
+                car.isDead = true;
+            }
+    }
+
       update(carDead) {
         this.draw();
         if (!carDead) {
             this.move();
-            this.checkBottomCollision();
+            //this.checkBottomCollision();
           }
     }
 }

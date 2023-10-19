@@ -1,11 +1,11 @@
-class Car{
-    constructor(){
+class Car {
+    constructor() {
         this.position = {
-            x: canvas.width/2.5,
-            y: canvas.height/2.7,
-            
+            x: canvas.width / 2.8,
+            y: canvas.height / 2.7,
+
         }
-        this.velocity ={
+        this.velocity = {
             x: 0,
             y: 0,
         }
@@ -13,13 +13,14 @@ class Car{
             width: 50,
             height: 100,
         };
+        this.isCrossedBorder = false;
         //this.isAlive = true;
-        this.isDead =false;
+        this.isDead = false;
         this.image = new Image();
         this.image.src = "images/orange-car.png"
     }
 
-    draw(){
+    draw() {
         c.beginPath();
         c.drawImage(
             this.image,
@@ -30,15 +31,33 @@ class Car{
         )
 
     }
-    move(){
+    move() {
         this.position.x += this.velocity.x;
-        this.position.y+= this.velocity.y;
+        this.position.y += this.velocity.y;
+    }
+    checkBorderCollision() {
+        if (this.position.y + this.size.height >= canvas.height) {
+            this.isCrossedBorder = true;
+            this.position.y = canvas.height - this.size.height;
+        } else if (this.position.y <= 0)
+        {
+            this.position.y= 0;
+        }
+        if (this.position.x + this.size.width >= canvas.width) {
+            this.isCrossedBorder = true;
+            this.position.x = canvas.width - this.size.width;
+        } else if (this.position.x <= 0)
+        {
+            this.position.x= 0;
+        }
+        
     }
 
-    update(){
+    update() {
         this.draw();
         if (!this.isDead) {
             this.move();
-          }
+            this.checkBorderCollision();
+        }
     }
 }
